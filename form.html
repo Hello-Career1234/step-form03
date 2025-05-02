@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>カスタムステップフォーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    .progress-container { background: #eee; border-radius: 10px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+    .progress-bar { background: #4caf50; height: 100%; width: 0%; transition: width 0.3s ease; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .btn { margin: 15px 5px; padding: 10px 20px; background-color: #4caf50; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>転職サポートお問い合わせフォーム</h2>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <form id="stepForm">
+
+    <div class="step active">
+      <label>お名前 *</label>
+      <input type="text" required>
+      <label>フリガナ *</label>
+      <input type="text" required>
+      <button type="button" class="btn" onclick="nextStep()">次へ</button>
+    </div>
+
+    <div class="step">
+      <label>お住まいの都道府県 *</label>
+      <select required>
+        <option value="">選択してください</option>
+        <option>東京都</option><option>大阪府</option><option>その他</option>
+      </select>
+      <label>メールアドレス *</label>
+      <input type="email" required>
+      <label>電話番号 *</label>
+      <input type="tel" required>
+      <button type="button" class="btn" onclick="prevStep()">戻る</button>
+      <button type="button" class="btn" onclick="nextStep()">次へ</button>
+    </div>
+
+    <div class="step">
+      <label>現在のご状況 *</label>
+      <select required>
+        <option>就業中（正社員）</option>
+        <option>就業中（契約社員・派遣社員）</option>
+        <option>離職中</option>
+        <option>学生</option>
+        <option>その他</option>
+      </select>
+      <label>現在のご状況 ※その他の場合</label>
+      <input type="text">
+      <label>経験職種 *</label>
+      <select required>
+        <option>営業職</option><option>接客・販売</option><option>事務職</option><option>コールセンター</option>
+        <option>エンジニア／IT関連</option><option>介護・医療</option><option>教育・保育</option>
+        <option>製造・軽作業</option><option>飲食・サービス</option><option>その他（自由入力）</option>
+      </select>
+      <button type="button" class="btn" onclick="prevStep()">戻る</button>
+      <button type="button" class="btn" onclick="nextStep()">次へ</button>
+    </div>
+
+    <div class="step">
+      <label>転職希望時期 *</label>
+      <select required>
+        <option>今すぐにでも</option><option>～1か月以内</option><option>～3か月以内</option>
+        <option>～6か月以内</option><option>～12か月以内</option><option>いい求人があれば</option>
+      </select>
+      <label>希望の勤務エリア *</label>
+      <select required>
+        <option value="">選択してください</option>
+        <option>東京都</option><option>大阪府</option><option>その他</option>
+      </select>
+      <button type="button" class="btn" onclick="prevStep()">戻る</button>
+      <button type="button" class="btn" onclick="nextStep()">次へ</button>
+    </div>
+
+    <div class="step">
+      <label>ご相談内容 *</label>
+      <select required>
+        <option>適職診断・キャリアの方向性について相談したい</option>
+        <option>未経験からの転職について相談したい</option>
+        <option>面接や応募書類の対策を相談したい</option>
+        <option>自分に合う求人を紹介して欲しい</option>
+        <option>エージェントにじっくり話を聞いてもらいたい</option>
+        <option>転職するか迷っていて話だけ聞きたい</option>
+        <option>その他（自由入力）</option>
+      </select>
+      <label>ご相談内容 ※その他の場合のみ</label>
+      <input type="text">
+      <button type="button" class="btn" onclick="prevStep()">戻る</button>
+      <button type="submit" class="btn">送信</button>
+    </div>
+
+  </form>
+
+  <script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progressBar');
+
+    function showStep(index) {
+      steps.forEach((step, i) => step.classList.toggle('active', i === index));
+      progressBar.style.width = (index / (steps.length - 1)) * 100 + "%";
+    }
+
+    function nextStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    }
+
+    document.getElementById('stepForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("送信されました！（現在は仮動作）");
+    });
+
+    showStep(currentStep);
+  </script>
+
+</body>
+</html>
